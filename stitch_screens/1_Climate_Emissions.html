@@ -1,0 +1,697 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Climate &amp; Emissions Monitoring - Metro-Core Ops</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-error": "#690005",
+                        "secondary": "#4edea3",
+                        "surface-container": "#191f2f",
+                        "primary": "#4cd7f6",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "primary-fixed": "#acedff",
+                        "surface-tint": "#4cd7f6",
+                        "on-secondary-fixed": "#002113",
+                        "tertiary-fixed": "#f0dbff",
+                        "surface": "#0d1322",
+                        "surface-dim": "#0d1322",
+                        "on-primary": "#003640",
+                        "surface-container-lowest": "#080e1d",
+                        "on-surface-variant": "#bcc9cd",
+                        "on-surface": "#dde2f8",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "surface-container-highest": "#2f3445",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#242a3a",
+                        "on-tertiary-container": "#5a009b",
+                        "outline-variant": "#3d494c",
+                        "outline": "#869397",
+                        "on-error-container": "#ffdad6",
+                        "inverse-surface": "#dde2f8",
+                        "primary-container": "#06b6d4",
+                        "secondary-fixed-dim": "#4edea3",
+                        "tertiary": "#ddb7ff",
+                        "inverse-on-surface": "#2a3040",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-background": "#dde2f8",
+                        "surface-bright": "#33394a",
+                        "on-tertiary": "#490080",
+                        "background": "#0d1322",
+                        "on-tertiary-fixed": "#2c0051",
+                        "tertiary-container": "#c78dff",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "error": "#ffb4ab",
+                        "inverse-primary": "#00687a",
+                        "surface-container-low": "#151b2b",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-primary-fixed": "#001f26",
+                        "secondary-container": "#00a572",
+                        "surface-variant": "#2f3445",
+                        "on-secondary-container": "#00311f",
+                        "on-secondary": "#003824",
+                        "on-primary-container": "#00424f"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        "gutter": "8px",
+                        "stack-gap": "4px",
+                        "unit": "4px",
+                        "panel-padding": "12px",
+                        "margin-edge": "16px"
+                    },
+                    fontFamily: {
+                        "body-sm": ["Inter", "sans-serif"],
+                        "headline-md": ["Geist", "sans-serif"],
+                        "telemetry-lg": ["JetBrains Mono", "monospace"],
+                        "telemetry-label": ["JetBrains Mono", "monospace"],
+                        "telemetry-value": ["JetBrains Mono", "monospace"],
+                        "display-lg": ["Geist", "sans-serif"]
+                    },
+                    fontSize: {
+                        "body-sm": ["13px", { lineHeight: "18px", fontWeight: "400" }],
+                        "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "telemetry-lg": ["24px", { lineHeight: "32px", fontWeight: "700" }],
+                        "telemetry-label": ["11px", { lineHeight: "14px", letterSpacing: "0.05em", fontWeight: "500" }],
+                        "telemetry-value": ["14px", { lineHeight: "16px", fontWeight: "600" }],
+                        "display-lg": ["32px", { lineHeight: "40px", letterSpacing: "-0.02em", fontWeight: "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .cyber-grid {
+            background-image: 
+                linear-gradient(to right, rgba(61, 73, 76, 0.1) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(61, 73, 76, 0.1) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        @keyframes pulse-glow {
+            0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(78, 222, 163, 0.2); }
+            50% { opacity: 0.7; box-shadow: 0 0 2px rgba(78, 222, 163, 0.0); }
+        }
+        .anim-pulse {
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+        .scanline-effect::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(76, 215, 246, 0.05) 51%, transparent 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-sm overflow-hidden selection:bg-secondary/30 selection:text-secondary-fixed">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant shadow-sm flex justify-between items-center px-margin-edge h-16 w-full">
+<div class="flex items-center gap-gutter">
+<span class="font-display-lg text-display-lg text-primary tracking-tighter">METRO-CORE OPS</span>
+</div>
+<div class="hidden md:flex items-center gap-margin-edge">
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all duration-200 ease-in-out px-unit py-unit rounded-DEFAULT" href="#">LIVE MAP</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all duration-200 ease-in-out px-unit py-unit rounded-DEFAULT" href="#">INCIDENTS</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary hover:bg-primary/10 transition-all duration-200 ease-in-out px-unit py-unit rounded-DEFAULT" href="#">ANALYTICS</a>
+</div>
+<div class="flex items-center gap-stack-gap">
+<button class="p-unit text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 rounded-DEFAULT">
+<span class="material-symbols-outlined text-[24px]">settings_input_component</span>
+</button>
+<button class="p-unit text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 rounded-DEFAULT relative">
+<span class="material-symbols-outlined text-[24px]">notifications_active</span>
+<span class="absolute top-1 right-1 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="p-unit text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 rounded-DEFAULT">
+<span class="material-symbols-outlined text-[24px]">account_circle</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar (Shared Component) -->
+<aside class="hidden md:flex fixed left-0 top-16 h-[calc(100vh-64px)] w-64 z-40 bg-surface-container-lowest/90 backdrop-blur-xl border-r border-outline-variant flex flex-col py-panel-padding gap-stack-gap">
+<!-- Header / Profile block injected based on JSON keys -->
+<div class="px-panel-padding mb-margin-edge flex flex-col gap-unit border-b border-outline-variant pb-panel-padding">
+<div class="w-10 h-10 rounded-full bg-surface-variant border border-outline flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant">person</span>
+<span class="sr-only">Ops Commander Profile</span>
+</div>
+<div class="font-headline-md text-headline-md text-primary mt-unit">SYSTEM COMMAND</div>
+<div class="font-telemetry-label text-telemetry-label text-secondary uppercase tracking-widest">SECTOR-07 STATUS: NOMINAL</div>
+</div>
+<!-- Navigation Links -->
+<nav class="flex flex-col gap-unit px-unit grow">
+<a class="flex items-center gap-gutter px-panel-padding py-stack-gap text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 transition-all duration-200 ease-in-out rounded-DEFAULT font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+                Network Map
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-stack-gap text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 transition-all duration-200 ease-in-out rounded-DEFAULT font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[20px]">network_wifi_2_bar_locked</span>
+                Junctions
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-stack-gap text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 transition-all duration-200 ease-in-out rounded-DEFAULT font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+                Fleet Ops
+            </a>
+<!-- ACTIVE TAB: Climate -->
+<a class="flex items-center gap-gutter px-panel-padding py-stack-gap bg-secondary/10 text-secondary border-r-4 border-secondary active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">thermostat</span>
+                Climate
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-stack-gap text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 transition-all duration-200 ease-in-out rounded-DEFAULT font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+                System Logs
+            </a>
+</nav>
+<!-- CTA Action -->
+<div class="px-panel-padding mt-auto">
+<button class="w-full flex items-center justify-center gap-unit bg-error/10 text-error border border-error/50 hover:bg-error/20 py-panel-padding rounded-DEFAULT font-telemetry-label text-telemetry-label uppercase tracking-widest transition-colors">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                EMERGENCY OVERRIDE
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-0 md:ml-64 pt-16 h-[calc(100vh-32px)] w-full md:w-[calc(100%-256px)] bg-surface-dim cyber-grid flex flex-col p-margin-edge gap-margin-edge overflow-y-auto relative scanline-effect">
+<!-- Header -->
+<header class="flex justify-between items-end shrink-0">
+<div>
+<h1 class="font-display-lg text-display-lg text-on-surface tracking-tight flex items-center gap-gutter">
+<span class="material-symbols-outlined text-secondary text-[32px]">public</span>
+                    Environmental Impact Telemetry
+                </h1>
+<p class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase mt-unit">Live Data Ingestion: Songdo Smart Grid</p>
+</div>
+<div class="hidden lg:flex items-center gap-stack-gap font-telemetry-value text-telemetry-value">
+<span class="text-on-surface-variant">SYNC:</span>
+<span class="text-secondary anim-pulse flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary inline-block"></span> REALTIME</span>
+</div>
+</header>
+<!-- KPI Row (Grid) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-margin-edge shrink-0">
+<!-- KPI 1 -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant border-l-4 border-l-secondary rounded-DEFAULT p-panel-padding flex flex-col relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-secondary">co2</span>
+</div>
+<div class="flex items-center gap-unit text-on-surface-variant font-telemetry-label text-telemetry-label uppercase">
+<span class="material-symbols-outlined text-[16px]">psychiatry</span> Total Carbon Offset
+                </div>
+<div class="font-telemetry-lg text-telemetry-lg text-on-surface mt-stack-gap">14,289.4 <span class="text-body-sm text-secondary">tCO₂</span></div>
+<div class="font-body-sm text-body-sm text-secondary-container mt-auto pt-unit flex items-center gap-unit">
+<span class="material-symbols-outlined text-[14px]">arrow_downward</span> -12.4% vs prev cycle
+                </div>
+</div>
+<!-- KPI 2 -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant border-l-4 border-l-primary rounded-DEFAULT p-panel-padding flex flex-col relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-primary">air</span>
+</div>
+<div class="flex items-center gap-unit text-on-surface-variant font-telemetry-label text-telemetry-label uppercase">
+<span class="material-symbols-outlined text-[16px]">sensors</span> Current AQI (Avg)
+                </div>
+<div class="font-telemetry-lg text-telemetry-lg text-primary mt-stack-gap">32 <span class="text-body-sm text-on-surface-variant">/ 500</span></div>
+<div class="font-body-sm text-body-sm text-primary mt-auto pt-unit flex items-center gap-unit">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Air Quality: Optimal
+                </div>
+</div>
+<!-- KPI 3 -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant border-l-4 border-l-tertiary rounded-DEFAULT p-panel-padding flex flex-col relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
+<span class="material-symbols-outlined text-[120px] text-tertiary">thermostat</span>
+</div>
+<div class="flex items-center gap-unit text-on-surface-variant font-telemetry-label text-telemetry-label uppercase">
+<span class="material-symbols-outlined text-[16px]">thermostat_auto</span> Micro-Climate Temp
+                </div>
+<div class="font-telemetry-lg text-telemetry-lg text-on-surface mt-stack-gap">22.8<span class="text-body-sm text-tertiary">°C</span></div>
+<div class="font-body-sm text-body-sm text-tertiary mt-auto pt-unit flex items-center gap-unit">
+<span class="material-symbols-outlined text-[14px]">map</span> Peak UHI localized to S-04
+                </div>
+</div>
+</div>
+<!-- Main Visuals Row -->
+<div class="flex flex-col lg:flex-row gap-margin-edge min-h-[300px] shrink-0">
+<!-- Left Panel: AQI Heatmap Topology -->
+<div class="w-full lg:w-1/3 bg-surface-container/60 backdrop-blur-md border border-outline-variant rounded-DEFAULT flex flex-col relative overflow-hidden shadow-lg">
+  <!-- Card Header with Real-time Status -->
+  <div class="p-panel-padding border-b border-outline-variant bg-surface-container-highest/60 flex flex-col gap-unit">
+    <div class="flex justify-between items-center">
+      <div class="flex items-center gap-gutter">
+        <span class="material-symbols-outlined text-primary text-[20px]">grid_view</span>
+        <h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">AQI TOPOLOGY</h2>
+      </div>
+      <div class="flex items-center gap-unit bg-surface-container-lowest/80 border border-outline-variant px-unit py-0.5 rounded-DEFAULT text-[10px] font-telemetry-label text-secondary">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary anim-pulse"></span>
+        <span class="">1,402 NODES • <span class="text-error font-bold">2 HOTSPOTS</span></span>
+      </div>
+    </div>
+    <!-- Filter & Sub-sector Selector Bar -->
+    <div class="flex items-center gap-1 overflow-x-auto pt-unit text-[10px] font-telemetry-label uppercase tracking-wider">
+      <button class="px-2 py-0.5 rounded-DEFAULT bg-primary/20 text-primary border border-primary/50 shrink-0 font-semibold">ALL SECTORS</button>
+      <button class="px-2 py-0.5 rounded-DEFAULT bg-error/10 text-error hover:bg-error/20 border border-error/40 shrink-0 transition-colors flex items-center gap-1">
+        <span class="w-1.5 h-1.5 rounded-full bg-error animate-[pulse_1s_infinite]"></span> S-04 HOT
+      </button>
+      <button class="px-2 py-0.5 rounded-DEFAULT bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-variant border border-outline-variant/40 shrink-0 transition-colors">CORRIDOR-α</button>
+      <button class="px-2 py-0.5 rounded-DEFAULT bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-variant border border-outline-variant/40 shrink-0 transition-colors">HARBOR</button>
+    </div>
+  </div>
+
+  <!-- Heatmap Matrix Board -->
+  <div class="p-gutter flex-grow flex flex-col justify-between bg-[#070b13] relative overflow-hidden">
+    <!-- High-tech crosshair & scanning grid background -->
+    <div class="absolute inset-0 pointer-events-none opacity-20 cyber-grid"></div>
+
+    <!-- 5x5 Micro-climate Sensor Cell Grid -->
+    <div class="grid grid-cols-5 gap-1 relative z-10 select-none">
+      <!-- Row 1 -->
+      <div class="group relative bg-secondary/10 hover:bg-secondary/30 border border-secondary/30 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S01-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">24</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 6µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S01-A • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 24 | Temp: 21.2°C</div>
+          <div class="text-[9px] text-secondary">Traffic flow steady • Dispersion idle</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/15 hover:bg-secondary/30 border border-secondary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S01-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">28</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 9µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S01-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 28 | Temp: 21.6°C</div>
+          <div class="text-[9px] text-secondary">Green buffer park zone</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/20 hover:bg-secondary/35 border border-secondary/50 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S02-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">36</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 12µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S02-A • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 36 | Temp: 22.0°C</div>
+          <div class="text-[9px] text-on-surface-variant">Commercial district feeder</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-primary/20 hover:bg-primary/35 border border-primary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-primary/80">
+          <span class="">S02-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-primary font-bold leading-none">48</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 16µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S02-B • MODERATE</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 48 | Temp: 22.8°C</div>
+          <div class="text-[9px] text-on-surface-variant">Urban transit junction</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/15 hover:bg-secondary/30 border border-secondary/30 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S03-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">31</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 10µg</div>
+        <div class="absolute bottom-full right-0 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S03-A • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 31 | Temp: 21.8°C</div>
+          <div class="text-[9px] text-secondary">Bay winds active</div>
+        </div>
+      </div>
+
+      <!-- Row 2 -->
+      <div class="group relative bg-secondary/25 hover:bg-secondary/40 border border-secondary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S03-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">39</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 13µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S03-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 39 | Temp: 22.1°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-primary/30 hover:bg-primary/45 border border-primary/50 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-primary">
+          <span class="">S03-C</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-primary font-bold leading-none">54</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 19µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-tertiary font-telemetry-label text-[10px] uppercase font-bold">Node S03-C • MODERATE</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 54 | Temp: 23.0°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-tertiary/20 hover:bg-tertiary/35 border border-tertiary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-tertiary">
+          <span class="">S04-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-tertiary font-bold leading-none">78</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 28µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-tertiary font-telemetry-label text-[10px] uppercase font-bold">Node S04-A • ELEVATED</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 78 | Temp: 23.9°C</div>
+          <div class="text-[9px] text-tertiary">Freeway bottleneck entry</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-primary/20 hover:bg-primary/35 border border-primary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-primary/80">
+          <span class="">S04-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-primary font-bold leading-none">45</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 15µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S04-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 45 | Temp: 22.5°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/20 hover:bg-secondary/35 border border-secondary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S05-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">26</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 8µg</div>
+        <div class="absolute bottom-full right-0 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S05-A • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 26 | Temp: 21.0°C</div>
+        </div>
+      </div>
+
+      <!-- Row 3 (Contains Critical Hotspot S-04) -->
+      <div class="group relative bg-secondary/30 hover:bg-secondary/40 border border-secondary/50 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/80">
+          <span class="">S05-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">34</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 11µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S05-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 34 | Temp: 21.9°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-tertiary/30 hover:bg-tertiary/45 border border-tertiary/60 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-tertiary font-bold">
+          <span class="">S04-C</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-tertiary anim-pulse"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-tertiary font-bold leading-none">94</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/70 uppercase">PM2.5: 33µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-52 bg-surface-container-high border border-tertiary p-1.5 rounded-DEFAULT shadow-2xl z-50 pointer-events-none text-left">
+          <div class="text-tertiary font-telemetry-label text-[10px] uppercase font-bold">Node S04-C • ELEVATED</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 94 | Temp: 24.3°C</div>
+          <div class="text-[9px] text-tertiary">Approaching warning threshold</div>
+        </div>
+      </div>
+
+      <!-- SECTOR S-04 HOTSPOT CRITICAL CELL -->
+      <div class="group relative bg-error/30 hover:bg-error/50 border-2 border-error rounded-DEFAULT p-1 transition-all cursor-crosshair flex flex-col justify-between h-14 shadow-[0_0_12px_rgba(239,68,68,0.4)] animate-[pulse_2s_infinite]">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-error font-bold">
+          <span class="">S04-HOT</span>
+          <span class="w-2 h-2 rounded-full bg-error animate-[ping_1.5s_infinite]"></span>
+        </div>
+        <div class="font-telemetry-lg text-[17px] text-error font-extrabold leading-none tracking-tight">148</div>
+        <div class="text-[8px] font-telemetry-label text-error/90 uppercase font-semibold">PM2.5: 64µg</div>
+        <!-- Rich Interactive Tooltip -->
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block w-60 bg-[#0c121e] border border-error p-2 rounded-DEFAULT shadow-[0_0_20px_rgba(239,68,68,0.6)] z-50 pointer-events-none text-left">
+          <div class="flex items-center justify-between border-b border-error/40 pb-1">
+            <span class="font-telemetry-label text-[11px] text-error font-bold">ALERT: SECTOR S-04</span>
+            <span class="text-[9px] bg-error text-surface px-1 font-bold rounded-DEFAULT">HOTSPOT</span>
+          </div>
+          <div class="grid grid-cols-2 gap-1 text-[10px] font-telemetry-value text-on-surface mt-1.5">
+            <div class="">AQI: <span class="text-error font-bold">148</span> (UNHEALTHY)</div>
+            <div class="">PM2.5: <span class="text-error">64 µg/m³</span></div>
+            <div class="">NO₂: <span class="text-on-surface-variant">82 ppb</span></div>
+            <div class="">Temp: <span class="text-tertiary">26.4°C</span></div>
+          </div>
+          <div class="mt-1 text-[9px] font-telemetry-label text-secondary flex items-center gap-1">
+            <span class="material-symbols-outlined text-[12px]">cyclone</span> Fan Array 04-B: Active at 100%
+          </div>
+        </div>
+      </div>
+
+      <div class="group relative bg-primary/35 hover:bg-primary/50 border border-primary/50 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-primary font-semibold">
+          <span class="">S04-D</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-primary font-bold leading-none">51</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 18µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S04-D • MODERATE</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 51 | Temp: 23.2°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/20 hover:bg-secondary/35 border border-secondary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S05-C</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">32</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 10µg</div>
+        <div class="absolute bottom-full right-0 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S05-C • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 32 | Temp: 21.7°C</div>
+        </div>
+      </div>
+
+      <!-- Row 4 -->
+      <div class="group relative bg-secondary/15 hover:bg-secondary/30 border border-secondary/30 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S06-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">27</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 8µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S06-A • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 27 | Temp: 21.4°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-primary/25 hover:bg-primary/40 border border-primary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-primary/80">
+          <span class="">S06-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-primary font-bold leading-none">42</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 14µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S06-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 42 | Temp: 22.3°C</div>
+        </div>
+      </div>
+
+      <!-- Secondary Hotspot / Elevated Anomaly Cell S07-H -->
+      <div class="group relative bg-tertiary/30 hover:bg-tertiary/50 border border-tertiary rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14 shadow-[0_0_8px_rgba(221,183,255,0.3)]">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-tertiary font-bold">
+          <span class="">S07-H</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-tertiary anim-pulse"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-tertiary font-bold leading-none">88</div>
+        <div class="text-[8px] font-telemetry-label text-tertiary/90 uppercase font-medium">PM2.5: 31µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-52 bg-surface-container-high border border-tertiary p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-tertiary font-telemetry-label text-[10px] uppercase font-bold">Node S07-H • MODERATE-HIGH</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 88 | Temp: 24.1°C</div>
+          <div class="text-[9px] text-tertiary">Freight corridor emissions uptick</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/30 hover:bg-secondary/45 border border-secondary/40 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S07-B</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">38</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 12µg</div>
+        <div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S07-B • OPTIMAL</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 38 | Temp: 22.0°C</div>
+        </div>
+      </div>
+
+      <div class="group relative bg-secondary/15 hover:bg-secondary/30 border border-secondary/30 rounded-DEFAULT p-1 transition-all cursor-pointer flex flex-col justify-between h-14">
+        <div class="flex justify-between items-center text-[9px] font-telemetry-label text-secondary/70">
+          <span class="">S08-A</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-secondary/80"></span>
+        </div>
+        <div class="font-telemetry-lg text-[16px] text-secondary font-bold leading-none">22</div>
+        <div class="text-[8px] font-telemetry-label text-on-surface-variant/60 uppercase">PM2.5: 5µg</div>
+        <div class="absolute bottom-full right-0 mb-1.5 hidden group-hover:block w-48 bg-surface-container-high border border-outline-variant p-1.5 rounded-DEFAULT shadow-xl z-50 pointer-events-none text-left">
+          <div class="text-primary font-telemetry-label text-[10px] uppercase font-bold">Node S08-A • EXCELLENT</div>
+          <div class="text-[10px] text-on-surface font-telemetry-value mt-0.5">AQI: 22 | Temp: 20.8°C</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AQI Severity Threshold Legend Bar -->
+    <div class="mt-2 pt-2 border-t border-outline-variant/50 flex flex-col gap-1">
+      <div class="flex items-center justify-between text-[9px] font-telemetry-label text-on-surface-variant">
+        <span class="uppercase">AQI Index Scale</span>
+        <span class="text-secondary font-semibold">148 MAX LOCALIZED</span>
+      </div>
+      <div class="grid grid-cols-4 gap-1 text-[8px] font-telemetry-label text-center">
+        <div class="bg-secondary/20 border border-secondary/40 text-secondary py-0.5 rounded-DEFAULT">0-50 OPT</div>
+        <div class="bg-primary/20 border border-primary/40 text-primary py-0.5 rounded-DEFAULT">51-100 MOD</div>
+        <div class="bg-tertiary/20 border border-tertiary/40 text-tertiary py-0.5 rounded-DEFAULT">101-150 UNH</div>
+        <div class="bg-error/30 border border-error text-error py-0.5 rounded-DEFAULT font-bold anim-pulse">150+ ALERT</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Footer Quick Actions & Telemetry Readout -->
+  <div class="p-panel-padding border-t border-outline-variant bg-surface-container-low flex items-center justify-between text-[10px] font-telemetry-label"><div class="flex items-center gap-1.5 text-on-surface-variant"><span class="material-symbols-outlined text-secondary text-[16px] animate-[spin_3s_linear_infinite]">mode_fan</span><span class="flex items-center gap-1.5">FAN ARRAY: <span class="text-secondary font-bold anim-pulse bg-secondary/10 px-1.5 py-0.5 rounded-DEFAULT border border-secondary/40 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-[ping_1s_infinite]"></span>ENGAGED [ACTIVE STAGE 3 • 2,400 RPM]</span></span></div><div class="flex items-center gap-unit"><button class="px-2 py-1 rounded-DEFAULT bg-error/15 border border-error/50 text-error hover:bg-error/25 transition-colors flex items-center gap-1 uppercase tracking-wider font-semibold active:scale-95"><span class="material-symbols-outlined text-[12px]">fencing</span>ISOLATE ANOMALY</button></div></div>
+</div>
+<!-- Right Panel: CO2 Reduction Trends vs Optimization -->
+<div class="w-full lg:w-2/3 bg-surface-container/60 backdrop-blur-md border border-outline-variant rounded-DEFAULT flex flex-col">
+<div class="p-panel-padding border-b border-outline-variant flex justify-between items-center bg-surface-container-highest/50">
+<h2 class="font-headline-md text-headline-md text-on-surface">EMISSIONS vs OPTIMIZATION ROUTING</h2>
+<div class="flex gap-margin-edge font-telemetry-label text-telemetry-label">
+<span class="flex items-center gap-unit text-secondary"><span class="w-3 h-[2px] bg-secondary"></span> CO2 Levels</span>
+<span class="flex items-center gap-unit text-outline"><span class="w-3 h-3 bg-outline-variant rounded-sm border border-outline"></span> Traffic Vol.</span>
+</div>
+</div>
+<div class="flex-grow p-panel-padding relative flex items-end justify-between gap-unit pt-12 pb-8">
+<!-- Y-Axis grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none px-panel-padding py-8">
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+<div class="border-t border-outline-variant/30 w-full"></div>
+</div>
+<!-- Stylized Bar/Line combo using CSS -->
+<!-- Data Point 1 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[40%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[60%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">08:00</div>
+</div>
+<!-- Connector Line (visual hack) -->
+<div class="absolute left-[10%] bottom-[60%] w-[12%] h-[2px] bg-secondary rotate-[-15deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 2 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[70%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[75%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">10:00</div>
+</div>
+<div class="absolute left-[24%] bottom-[75%] w-[12%] h-[2px] bg-secondary rotate-[-5deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 3 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[85%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[80%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">12:00</div>
+</div>
+<div class="absolute left-[39%] bottom-[80%] w-[12%] h-[2px] bg-secondary rotate-[25deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 4 (Algorithm Kick-in) -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<!-- Highlighted bar -->
+<div class="w-full max-w-[32px] bg-primary/20 border border-primary/50 h-[80%] rounded-t-sm group-hover:bg-primary/40 transition-colors"></div>
+<div class="absolute bottom-[50%] w-4 h-4 rounded-full bg-secondary shadow-[0_0_12px_rgba(78,222,163,1)] z-20 flex items-center justify-center">
+<div class="w-1.5 h-1.5 bg-background rounded-full"></div>
+</div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-primary translate-y-6">14:00 (OPT)</div>
+</div>
+<div class="absolute left-[53%] bottom-[50%] w-[12%] h-[2px] bg-secondary rotate-[15deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 5 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[60%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[35%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">16:00</div>
+</div>
+<div class="absolute left-[67%] bottom-[35%] w-[12%] h-[2px] bg-secondary rotate-[5deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 6 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[50%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[30%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">18:00</div>
+</div>
+<div class="absolute left-[82%] bottom-[30%] w-[12%] h-[2px] bg-secondary rotate-[-10deg] origin-left z-10 pointer-events-none"></div>
+<!-- Data Point 7 -->
+<div class="w-full flex flex-col justify-end items-center h-full relative z-10 group">
+<div class="w-full max-w-[32px] bg-outline-variant/40 border border-outline-variant h-[40%] rounded-t-sm group-hover:bg-outline-variant/60 transition-colors"></div>
+<div class="absolute bottom-[40%] w-3 h-3 rounded-full bg-surface border-2 border-secondary group-hover:shadow-[0_0_8px_rgba(78,222,163,0.8)] transition-all z-20"></div>
+<div class="absolute bottom-0 text-[10px] font-telemetry-label text-on-surface-variant translate-y-6">20:00</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Component & Terminal Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-margin-edge min-h-[240px] shrink-0 mb-8">
+<!-- Correlation Detail Card (Span 4) -->
+<div class="col-span-1 lg:col-span-4 bg-surface-container-high border border-outline-variant rounded-DEFAULT p-panel-padding flex flex-col">
+<h3 class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase border-b border-outline-variant/50 pb-unit mb-unit">Adaptive Grid Correlation</h3>
+<div class="flex-grow flex flex-col justify-center gap-gutter"><div class="flex justify-between items-center font-telemetry-value text-telemetry-value text-on-surface"><span class="">Traffic Phase Sync</span><span class="text-secondary">94%</span></div><div class="w-full bg-surface h-2 rounded-full overflow-hidden"><div class="bg-secondary h-full w-[94%]"></div></div><div class="flex justify-between items-center font-telemetry-value text-telemetry-value text-on-surface mt-stack-gap"><span class="">Idle Time Reduction</span><span class="text-primary">-22s / cycle</span></div><div class="w-full bg-surface h-2 rounded-full overflow-hidden"><div class="bg-primary h-full w-[78%]"></div></div><div class="flex justify-between items-center font-telemetry-value text-telemetry-value text-on-surface mt-stack-gap"><span class="flex items-center gap-1">Grid Energy Draw <span class="text-[9px] text-error font-telemetry-label">(+1.2 MW FAN)</span></span><span class="text-tertiary font-bold">5.4 MW</span></div><div class="w-full bg-surface h-2 rounded-full overflow-hidden"><div class="bg-tertiary h-full w-[58%]"></div></div></div>
+</div>
+<!-- Sensor Log Terminal (Span 8) -->
+<div class="col-span-1 lg:col-span-8 bg-[#05080f] border border-outline-variant rounded-DEFAULT flex flex-col overflow-hidden">
+<div class="bg-surface-variant border-b border-outline-variant px-panel-padding py-stack-gap flex justify-between items-center shrink-0">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase flex items-center gap-unit">
+<span class="material-symbols-outlined text-[14px]">terminal</span> ENV_SENSOR_DAEMON v2.4.1
+                    </span>
+<span class="w-2 h-2 rounded-full bg-secondary anim-pulse"></span>
+</div>
+<!-- Terminal Output -->
+<div class="p-panel-padding font-telemetry-value text-telemetry-value text-secondary-fixed flex-grow overflow-y-auto leading-relaxed flex flex-col justify-end text-[12px] opacity-80 select-text"><div class="text-on-surface-variant/50">Initializing connection to sector arrays...</div><div class="text-on-surface-variant/50">Handshake established with 1,402 nodes.</div><div class=""><span class="text-outline">14:02:44.205 [SYS]</span> ROUTING: Initiating traffic dispersion protocol S-04_ALPHA</div><div class=""><span class="text-outline">14:02:44.500 [INFO]</span> INGEST: S-05 Temp: 21.9C, Hum: 44%, CO2: 405ppm -&gt; OK</div><div><span class="text-outline">14:02:45.102 [ALERT]</span> <span class="text-error font-bold">AQI THRESHOLD EXCEEDED: Sector S-04 (148 AQI / PM2.5 64µg/m³)</span></div><div><span class="text-outline">14:02:45.310 [TRIGGER]</span> <span class="text-secondary font-semibold">AUTOMATED FAN ARRAY 04-ALPHA ACTIVATED (RPM: 2,400 | STAGE 3)</span></div><div><span class="text-outline">14:02:45.780 [AERO]</span> <span class="text-primary font-semibold">AIR DISPERSION VORTEX ENGAGED: Target vector Corridor-α -&gt; Harbor</span></div><div><span class="text-outline">14:02:46.015 [STATUS]</span> <span class="text-secondary-fixed">PM2.5 FLUX DETECTED: -18.4% dissipation delta initiated</span></div><div><span class="text-outline">14:02:46.420 [GRID]</span> <span class="text-tertiary">DRAW ADJUSTED: +1.2 MW to Substation 04 (Total: 5.4 MW)</span><span class="inline-block w-2 h-[1em] bg-secondary-fixed ml-1 animate-[pulse_1s_infinite]"></span></div></div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="fixed bottom-0 right-0 left-0 md:left-64 z-50 bg-surface-container-high/95 backdrop-blur-md border-t border-outline-variant flex justify-between items-center px-panel-padding h-8">
+<div class="font-telemetry-label text-on-tertiary-container text-telemetry-label uppercase tracking-widest">
+            OS-X KERNEL v4.2.0-STABLE
+        </div>
+<div class="flex items-center gap-margin-edge font-telemetry-value text-telemetry-value text-on-surface-variant">
+<span class="hover:text-tertiary-container cursor-pointer transition-colors">SYSSTAT: OK</span>
+<span class="hover:text-tertiary-container cursor-pointer transition-colors hidden sm:inline-block">LATENCY: 12ms</span>
+<span class="hover:text-tertiary-container cursor-pointer transition-colors hidden sm:inline-block text-primary">UPTIME: 99.99%</span>
+</div>
+</footer>
+
+
+
+
+</body></html>

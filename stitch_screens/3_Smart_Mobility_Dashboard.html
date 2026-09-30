@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Songdo Smart Mobility | Traffic Operations Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700&amp;family=Inter:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "#001f26",
+                        "surface-container-lowest": "#080e1d",
+                        "secondary": "#4edea3",
+                        "primary-fixed-dim": "#4cd7f6",
+                        "surface-container": "#191f2f",
+                        "surface-container-low": "#151b2b",
+                        "on-primary": "#003640",
+                        "inverse-primary": "#00687a",
+                        "outline-variant": "#3d494c",
+                        "surface-container-high": "#242a3a",
+                        "primary": "#4cd7f6",
+                        "background": "#0d1322",
+                        "surface-dim": "#0d1322",
+                        "surface": "#0d1322",
+                        "outline": "#869397",
+                        "primary-fixed": "#acedff",
+                        "on-surface": "#dde2f8",
+                        "on-primary-fixed-variant": "#004e5c",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-secondary-container": "#00311f",
+                        "on-error": "#690005",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-error-container": "#ffdad6",
+                        "error-container": "#93000a",
+                        "tertiary-fixed-dim": "#ddb7ff",
+                        "on-tertiary-fixed-variant": "#6900b3",
+                        "secondary-fixed-dim": "#4edea3",
+                        "inverse-on-surface": "#2a3040",
+                        "tertiary-container": "#c78dff",
+                        "surface-tint": "#4cd7f6",
+                        "error": "#ffb4ab",
+                        "surface-bright": "#33394a",
+                        "on-secondary": "#003824",
+                        "tertiary": "#ddb7ff",
+                        "primary-container": "#06b6d4",
+                        "on-tertiary": "#490080",
+                        "inverse-surface": "#dde2f8",
+                        "on-tertiary-fixed": "#2c0051",
+                        "on-surface-variant": "#bcc9cd",
+                        "secondary-container": "#00a572",
+                        "on-background": "#dde2f8",
+                        "on-tertiary-container": "#5a009b",
+                        "surface-variant": "#2f3445",
+                        "on-primary-container": "#00424f",
+                        "on-secondary-fixed": "#002113",
+                        "tertiary-fixed": "#f0dbff",
+                        "surface-container-highest": "#2f3445"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-gap": "4px",
+                        "panel-padding": "12px",
+                        "margin-edge": "16px",
+                        "gutter": "8px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Geist"],
+                        "telemetry-lg": ["JetBrains Mono"],
+                        "telemetry-value": ["JetBrains Mono"],
+                        "headline-md": ["Geist"],
+                        "telemetry-label": ["JetBrains Mono"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "telemetry-lg": ["24px", { "lineHeight": "32px", "fontWeight": "700" }],
+                        "telemetry-value": ["14px", { "lineHeight": "16px", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "telemetry-label": ["11px", { "lineHeight": "14px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: #0B1120; color: theme('colors.on-surface'); }
+        .glass-panel {
+            background: rgba(21, 27, 43, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid theme('colors.surface-variant');
+        }
+        .glow-cyan { box-shadow: 0 0 12px theme('colors.primary'); }
+        .glow-red { box-shadow: 0 0 12px theme('colors.error'); }
+        .text-glow { text-shadow: 0 0 8px currentColor; }
+        
+        /* Map SVG Styles */
+        .node { fill: theme('colors.surface-bright'); stroke: theme('colors.primary'); stroke-width: 2; }
+        .link-green { stroke: theme('colors.secondary'); stroke-width: 3; }
+        .link-amber { stroke: #fbbf24; stroke-width: 3; }
+        .link-red { stroke: theme('colors.error'); stroke-width: 3; }
+        .link-dijkstra { stroke: theme('colors.primary'); stroke-width: 4; filter: drop-shadow(0 0 6px theme('colors.primary')); stroke-dasharray: 8; animation: dash 1s linear infinite; }
+        .link-mst { stroke: theme('colors.tertiary'); stroke-width: 2; opacity: 0.6; stroke-dasharray: 4; }
+        
+        @keyframes dash {
+            to { stroke-dashoffset: -16; }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.05); }
+        }
+        .animate-pulse-fast { animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col font-body-sm text-body-sm">
+<!-- TopNav from JSON -->
+<header class="bg-surface-container/80 backdrop-blur-md flex justify-between items-center px-margin-edge h-16 w-full sticky top-0 z-50 border-b border-outline-variant/30 shadow-sm shrink-0">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse-fast shadow-[0_0_8px_theme('colors.secondary')]"></span>
+<span class="font-telemetry-label text-telemetry-label text-secondary tracking-widest uppercase">System Operational | Connectivity λ₂ = 2.00</span>
+</div>
+<div class="h-4 w-px bg-outline-variant/50 mx-2"></div>
+<h1 class="font-display-lg text-display-lg font-bold tracking-tighter text-primary">SONGDO OPS</h1>
+<span class="text-on-surface-variant ml-2 border-l border-outline-variant pl-4">Traffic Operations Center</span>
+</div>
+<div class="flex items-center bg-surface-container-high rounded-full p-1 border border-outline-variant/50">
+<button class="px-4 py-1.5 rounded-full font-telemetry-value text-telemetry-value text-on-surface-variant hover:text-on-surface transition-colors">Fixed-Time Baseline (M1)</button>
+<button class="px-4 py-1.5 rounded-full bg-primary/20 text-primary font-telemetry-value text-telemetry-value border border-primary/50 glow-cyan transition-all">Adaptive Graph Opt (M5)</button>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex flex-col items-end">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface" id="utc-clock">08:42:15 UTC</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant">Synced: 2s ago</span>
+</div>
+<div class="flex items-center gap-2 bg-error-container/20 text-error px-3 py-1 rounded border border-error/30 glow-red animate-pulse-fast">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+<span class="font-telemetry-label text-telemetry-label uppercase tracking-wider">Emergency Preemption</span>
+</div>
+<div class="flex items-center gap-4 border-l border-outline-variant/30 pl-4 text-primary">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-fixed transition-colors" data-weight="fill">settings</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-fixed transition-colors" data-weight="fill">notifications_active</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary-fixed transition-colors" data-weight="fill">account_circle</span>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar from JSON (Left-aligned as per JSON, standard layout) -->
+<nav class="bg-surface-container-low/90 backdrop-blur-lg flex flex-col h-full py-panel-padding space-y-gutter docked h-screen left-0 w-64 border-r border-outline-variant/20 shrink-0 hidden md:flex">
+<div class="px-panel-padding mb-4 flex flex-col gap-1">
+<span class="text-primary font-display-lg uppercase tracking-tight text-xl">Command Center</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant">Sector 7-B Alpha</span>
+<div class="mt-2 text-xs text-on-surface-variant italic">Avatar: Ops Commander</div>
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<a class="bg-primary/20 text-primary border-r-4 border-primary px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">map</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Network Map</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">traffic</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Junctions</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Fleet Ops</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">eco</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Climate</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[20px]">terminal</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">System Logs</span>
+</a>
+</div>
+<div class="px-panel-padding w-full mt-auto mb-4">
+<button class="w-full bg-error/10 border border-error/50 text-error hover:bg-error/20 py-2 font-telemetry-label text-telemetry-label uppercase tracking-widest transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">warning</span>
+                    EMERGENCY OVERRIDE
+                </button>
+</div>
+<div class="flex flex-col gap-1 mt-auto border-t border-outline-variant/20 pt-4">
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">build</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Diagnostics</span>
+</a>
+<a class="text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all px-panel-padding py-stack-gap flex items-center gap-3" href="#">
+<span class="material-symbols-outlined text-[18px]">help_center</span>
+<span class="font-telemetry-label text-telemetry-label uppercase">Support</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 flex flex-col p-4 gap-4 overflow-hidden">
+<!-- KPIs -->
+<div class="grid grid-cols-4 gap-4 shrink-0">
+<div class="glass-panel rounded-lg p-3 flex flex-col gap-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider">Avg Delay</span>
+<div class="flex items-end justify-between">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">32.8s</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/30 px-1.5 py-0.5 rounded font-telemetry-value text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">arrow_downward</span> 95.0% Reduction
+                        </span>
+</div>
+</div>
+<div class="glass-panel rounded-lg p-3 flex flex-col gap-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider">Queue Length</span>
+<div class="flex items-end justify-between">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">4 veh</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/30 px-1.5 py-0.5 rounded font-telemetry-value text-[10px] flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">arrow_downward</span> 75.0% Cleared
+                        </span>
+</div>
+</div>
+<div class="glass-panel rounded-lg p-3 flex flex-col gap-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider">Travel Time</span>
+<div class="flex items-end justify-between">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">3.28m</span>
+<span class="bg-primary/10 text-primary border border-primary/30 px-1.5 py-0.5 rounded font-telemetry-value text-[10px] flex items-center gap-1">
+                             11.4% Faster
+                        </span>
+</div>
+</div>
+<div class="glass-panel rounded-lg p-3 flex flex-col gap-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider">CO2 Saved</span>
+<div class="flex items-end justify-between">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">~14.2 kg/h</span>
+<span class="bg-secondary/10 text-secondary border border-secondary/30 px-1.5 py-0.5 rounded font-telemetry-value text-[10px] flex items-center gap-1">
+                            38.4% Reduction
+                        </span>
+</div>
+</div>
+</div>
+<!-- Central Stage: Map & Sidebar -->
+<div class="flex-1 flex gap-4 min-h-0">
+<!-- Map Area -->
+<div class="glass-panel rounded-lg flex-1 relative overflow-hidden flex flex-col">
+<div class="absolute top-4 left-4 z-10 flex flex-col gap-2 bg-surface/80 p-2 border border-outline-variant/30 rounded backdrop-blur">
+<label class="flex items-center gap-2 font-telemetry-label text-telemetry-label cursor-pointer hover:text-primary transition-colors">
+<input checked="" class="form-checkbox bg-transparent border-outline-variant text-primary rounded-sm h-3 w-3 focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+                            Dijkstra Path
+                        </label>
+<label class="flex items-center gap-2 font-telemetry-label text-telemetry-label cursor-pointer hover:text-tertiary transition-colors">
+<input checked="" class="form-checkbox bg-transparent border-outline-variant text-tertiary rounded-sm h-3 w-3 focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+                            MST Fiber lines
+                        </label>
+<label class="flex items-center gap-2 font-telemetry-label text-telemetry-label cursor-pointer hover:text-secondary transition-colors">
+<input class="form-checkbox bg-transparent border-outline-variant text-secondary rounded-sm h-3 w-3 focus:ring-0 focus:ring-offset-0" type="checkbox"/>
+                            Heatmap Layer
+                        </label>
+</div>
+<div class="flex-1 w-full h-full relative" data-location="Songdo" style="">
+<svg class="w-full h-full" preserveaspectratio="xMidYMid slice" viewbox="0 0 800 600">
+<!-- Background Grid -->
+<defs>
+<pattern height="40" id="grid" patternunits="userSpaceOnUse" width="40">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2a3040" stroke-width="0.5"></path>
+</pattern>
+</defs>
+<rect fill="url(#grid)" height="100%" width="100%"></rect>
+<!-- MST Lines (Purple) -->
+<line class="link-mst" x1="200" x2="600" y1="200" y2="150"></line>
+<line class="link-mst" x1="200" x2="250" y1="200" y2="450"></line>
+<line class="link-mst" x1="600" x2="650" y1="150" y2="400"></line>
+<!-- V/C Ratio Lines -->
+<line class="link-amber" x1="200" x2="600" y1="200" y2="150"></line> <!-- J1-J2 (0.917) -->
+<line class="link-red" x1="600" x2="650" y1="150" y2="400"></line> <!-- J2-J4 (0.967) -->
+<line class="link-green" x1="200" x2="250" y1="200" y2="450"></line> <!-- J1-J3 -->
+<line class="link-green" x1="250" x2="650" y1="450" y2="400"></line> <!-- J3-J4 -->
+<!-- Dijkstra Path Overlay (Cyan Glowing) -->
+<path class="link-dijkstra" d="M 200 200 L 250 450 L 650 400" fill="none"></path>
+<!-- Nodes -->
+<g transform="translate(200, 200)">
+<circle class="node" r="12"></circle>
+<text class="font-telemetry-value text-xs" fill="white" x="-20" y="-15">J1</text>
+</g>
+<g transform="translate(600, 150)">
+<circle class="animate-pulse-fast" fill="theme('colors.surface-bright')" r="16" stroke="theme('colors.error')" stroke-width="2"></circle>
+<circle fill="none" opacity="0.5" r="24" stroke="theme('colors.error')" stroke-width="1"></circle>
+<text class="font-telemetry-value text-xs" fill="white" x="15" y="-15">J2 (SEL)</text>
+</g>
+<g transform="translate(250, 450)">
+<circle class="node" r="12"></circle>
+<text class="font-telemetry-value text-xs" fill="white" x="-20" y="25">J3</text>
+</g>
+<g transform="translate(650, 400)">
+<circle class="node" r="12"></circle>
+<text class="font-telemetry-value text-xs" fill="white" x="15" y="20">J4</text>
+</g>
+</svg>
+</div>
+</div>
+<!-- Right Sidebar (Junction Details) -->
+<div class="w-[30%] shrink-0 flex flex-col gap-4 min-w-[280px]">
+<div class="glass-panel rounded-lg p-4 flex flex-col gap-4 flex-1">
+<div class="flex justify-between items-center border-b border-outline-variant/30 pb-2">
+<h2 class="font-headline-md text-headline-md text-on-surface">Junction J2</h2>
+<span class="bg-error/20 text-error border border-error/30 px-2 py-0.5 rounded font-telemetry-label text-telemetry-label">V/C 0.967</span>
+</div>
+<!-- Signal Countdown -->
+<div class="flex items-center justify-center py-4">
+<div class="relative w-24 h-24 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 100 100">
+<circle cx="50" cy="50" fill="none" r="45" stroke="#2a3040" stroke-width="8"></circle>
+<circle class="transition-all duration-1000" cx="50" cy="50" fill="none" r="45" stroke="theme('colors.secondary')" stroke-dasharray="282.7" stroke-dashoffset="84.8" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+<span class="font-telemetry-lg text-telemetry-lg text-secondary text-glow">28s</span>
+<span class="font-telemetry-label text-[9px] text-on-surface-variant uppercase">Phase 2</span>
+</div>
+</div>
+</div>
+<!-- Approach Queues Table -->
+<div class="flex flex-col gap-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider mb-1">Approach Queues</span>
+<div class="bg-surface-container rounded border border-outline-variant/30 overflow-hidden text-xs">
+<div class="flex justify-between p-2 border-b border-outline-variant/30 bg-surface-container-high/50 font-telemetry-value text-on-surface">
+<span>North</span>
+<span class="text-secondary">14 veh/h</span>
+</div>
+<div class="flex justify-between p-2 border-b border-outline-variant/30 font-telemetry-value text-on-surface">
+<span>East</span>
+<span class="text-secondary">24 veh/h</span>
+</div>
+<div class="flex justify-between p-2 border-b border-outline-variant/30 bg-surface-container-high/50 font-telemetry-value text-on-surface">
+<span>South</span>
+<span class="text-error">8 veh/h</span>
+</div>
+<div class="flex justify-between p-2 font-telemetry-value text-on-surface">
+<span>West</span>
+<span class="text-error">12 veh/h</span>
+</div>
+</div>
+</div>
+<!-- Action Bar -->
+<div class="mt-auto flex flex-col gap-2">
+<button class="w-full bg-error/10 border border-error/50 text-error hover:bg-error/20 py-1.5 font-telemetry-label text-telemetry-label uppercase tracking-wider transition-colors">
+                                Dispatch Emergency Vehicle
+                            </button>
+<button class="w-full bg-[#fbbf24]/10 border border-[#fbbf24]/50 text-[#fbbf24] hover:bg-[#fbbf24]/20 py-1.5 font-telemetry-label text-telemetry-label uppercase tracking-wider transition-colors">
+                                Simulate Rush-Hour Surge
+                            </button>
+<button class="w-full bg-surface-variant/30 border border-outline-variant text-on-surface-variant hover:bg-surface-variant/50 hover:text-on-surface py-1.5 font-telemetry-label text-telemetry-label uppercase tracking-wider transition-colors">
+                                Reset to Baseline
+                            </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Drawer (Charts) -->
+<div class="h-48 shrink-0 flex gap-4">
+<div class="glass-panel rounded-lg p-3 flex-1 flex flex-col">
+<h3 class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider mb-2">Real-Time Queue Dissipation</h3>
+<div class="flex-1 relative border-l border-b border-outline-variant/50 ml-6 mb-4">
+<!-- Chart Mockup -->
+<svg class="w-full h-full absolute inset-0" preserveaspectratio="none" viewbox="0 0 100 100">
+<!-- Fixed Time (Exploding - Red) -->
+<path d="M 0,90 Q 20,85 40,70 T 80,20 L 100,10" fill="none" opacity="0.6" stroke="theme('colors.error')" stroke-dasharray="4,2" stroke-width="2"></path>
+<!-- Adaptive (Clearing - Cyan) -->
+<path d="M 0,90 Q 30,70 50,40 T 100,95" fill="none" filter="drop-shadow(0 0 4px theme('colors.primary'))" stroke="theme('colors.primary')" stroke-width="2"></path>
+</svg>
+<div class="absolute bottom-[-16px] left-0 right-0 flex justify-between text-[9px] font-telemetry-value text-on-surface-variant">
+<span>T-10m</span>
+<span>NOW</span>
+<span>T+10m</span>
+</div>
+<div class="absolute left-[-24px] top-0 bottom-0 flex flex-col justify-between text-[9px] font-telemetry-value text-on-surface-variant">
+<span>Max</span>
+<span>0</span>
+</div>
+</div>
+</div>
+<div class="glass-panel rounded-lg p-3 w-[40%] flex flex-col">
+<h3 class="font-telemetry-label text-telemetry-label text-on-surface-variant uppercase tracking-wider mb-2">Before vs After Delay</h3>
+<div class="flex-1 flex items-end justify-around pb-2 border-b border-outline-variant/50">
+<!-- Bar Group 1 -->
+<div class="flex gap-1 items-end h-full">
+<div class="w-4 bg-surface-variant h-[80%]" title="Morning - Fixed"></div>
+<div class="w-4 bg-secondary h-[40%] glow-cyan" title="Morning - Adaptive"></div>
+<span class="text-[9px] font-telemetry-value text-on-surface-variant absolute bottom-2 ml-1">Morn</span>
+</div>
+<!-- Bar Group 2 -->
+<div class="flex gap-1 items-end h-full relative">
+<div class="w-4 bg-surface-variant h-[95%]" title="Evening - Fixed"></div>
+<div class="w-4 bg-secondary h-[35%] glow-cyan" title="Evening - Adaptive"></div>
+<span class="text-[9px] font-telemetry-value text-on-surface-variant absolute -bottom-4 left-1/2 -translate-x-1/2">Eve</span>
+</div>
+<!-- Bar Group 3 -->
+<div class="flex gap-1 items-end h-full relative">
+<div class="w-4 bg-surface-variant h-[30%]" title="Off-Peak - Fixed"></div>
+<div class="w-4 bg-secondary h-[25%] glow-cyan" title="Off-Peak - Adaptive"></div>
+<span class="text-[9px] font-telemetry-value text-on-surface-variant absolute -bottom-4 left-1/2 -translate-x-1/2 w-[40px] text-center">Off</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<script>
+        // Simple clock update
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toISOString().substr(11, 8) + ' UTC';
+            document.getElementById('utc-clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body></html>

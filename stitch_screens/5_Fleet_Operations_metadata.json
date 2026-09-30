@@ -1,0 +1,263 @@
+{
+  "screenshot": {
+    "name": "projects/16364102934058747839/screens/daf4555a4d5b474380d1d561c7307e4e/fileEntries/screenshot",
+    "downloadUrl": "https://lh3.googleusercontent.com/aida/AEtjO1WQRqgeiAO_tZ4vNFLJzHisNs1h1Cmiy3BA8xA4bS25PPenXjj9ertJFtVZqsqHGngPH3CczZ6xVg4NLg4B7lrmq-ZgHOMseXj3XIesanromCffi8vgSYBkiLOcnRcau-vCzPl3MUtvAl0VNr3bgx8RupawDUFjqymFatChQSnEU1JfW3zGSdpL-hpvtkzdb9UJdFIkYNjNKhZ46ABmxM_LZI2h9CPpwBbAx-A9RxjdoTokGefzzApHXgG_"
+  },
+  "htmlCode": {
+    "name": "projects/16364102934058747839/screens/daf4555a4d5b474380d1d561c7307e4e/fileEntries/html",
+    "downloadUrl": "https://contribution.usercontent.google.com/download?c=CgthaWRhX2NvZGVmeBJ8Eh1hcHBfY29tcGFuaW9uX2dlbmVyYXRlZF9maWxlcxpbCiVodG1sXzAwMDY1YTMwY2FkMmIyNzQwMWI0ZTY1YjUwMTFlMGU2EgsSBxCTspGhpgcYAZIBJAoKcHJvamVjdF9pZBIWQhQxNjM2NDEwMjkzNDA1ODc0NzgzOQ&filename=&opi=89354086",
+    "mimeType": "text/html"
+  },
+  "id": "daf4555a4d5b474380d1d561c7307e4e",
+  "generatedBy": "figaro_agent",
+  "width": "2560",
+  "height": "2048",
+  "title": "Fleet Operations Dashboard",
+  "prompt": "Fleet Operations Dashboard for the Songdo Smart Mobility system.\n- Main content: A map-centric view focusing on vehicle tracking (Autonomous Shuttles, Emergency Vehicles, Public Transit).\n- KPI Cards: Active Vehicles, On-Time Performance, Battery/Fuel levels across the fleet.\n- Sidebar or panel for 'Vehicle List' with live telemetry for individual units (Speed, Lat/Long, Destination).\n- Theme: Cybernetic dark-mode with Electric Purple accents for network connectivity and Cyan for active routes.\n- Include the shared SideNavBar (with 'Fleet Ops' active) and TopNavBar.\n- Bottom terminal showing fleet dispatch and routing logs.",
+  "name": "projects/16364102934058747839/screens/daf4555a4d5b474380d1d561c7307e4e",
+  "theme": {
+    "colorMode": "DARK",
+    "font": "GEIST",
+    "roundness": "ROUND_FOUR",
+    "customColor": "#06b6d4",
+    "headlineFont": "GEIST",
+    "bodyFont": "INTER",
+    "labelFont": "JETBRAINS_MONO",
+    "namedColors": {
+      "on_secondary_fixed_variant": "#005236",
+      "tertiary": "#ddb7ff",
+      "background": "#0d1322",
+      "on_tertiary_fixed_variant": "#6900b3",
+      "secondary_fixed_dim": "#4edea3",
+      "surface_container_low": "#151b2b",
+      "on_surface": "#dde2f8",
+      "surface_container": "#191f2f",
+      "primary_fixed": "#acedff",
+      "error": "#ffb4ab",
+      "inverse_primary": "#00687a",
+      "outline_variant": "#3d494c",
+      "surface_container_high": "#242a3a",
+      "surface_container_lowest": "#080e1d",
+      "on_tertiary_fixed": "#2c0051",
+      "secondary_container": "#00a572",
+      "on_tertiary_container": "#5a009b",
+      "primary": "#4cd7f6",
+      "on_secondary": "#003824",
+      "surface_variant": "#2f3445",
+      "primary_fixed_dim": "#4cd7f6",
+      "on_secondary_container": "#00311f",
+      "on_primary_fixed": "#001f26",
+      "on_background": "#dde2f8",
+      "inverse_surface": "#dde2f8",
+      "on_primary_container": "#00424f",
+      "tertiary_fixed": "#f0dbff",
+      "on_error": "#690005",
+      "primary_container": "#06b6d4",
+      "outline": "#869397",
+      "tertiary_container": "#c78dff",
+      "on_primary_fixed_variant": "#004e5c",
+      "on_primary": "#003640",
+      "surface": "#0d1322",
+      "surface_bright": "#33394a",
+      "on_secondary_fixed": "#002113",
+      "on_tertiary": "#490080",
+      "error_container": "#93000a",
+      "on_surface_variant": "#bcc9cd",
+      "surface_dim": "#0d1322",
+      "tertiary_fixed_dim": "#ddb7ff",
+      "secondary": "#4edea3",
+      "surface_tint": "#4cd7f6",
+      "on_error_container": "#ffdad6",
+      "secondary_fixed": "#6ffbbe",
+      "surface_container_highest": "#2f3445",
+      "inverse_on_surface": "#2a3040"
+    },
+    "colorVariant": "FIDELITY",
+    "overridePrimaryColor": "#06b6d4",
+    "overrideSecondaryColor": "#10b981",
+    "overrideTertiaryColor": "#a855f7",
+    "overrideNeutralColor": "#0b1120",
+    "spacingScale": 2,
+    "typography": {
+      "body-sm": {
+        "fontFamily": "Inter",
+        "fontSize": "13px",
+        "fontWeight": "400",
+        "lineHeight": "18px"
+      },
+      "telemetry-value": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "14px",
+        "fontWeight": "600",
+        "lineHeight": "16px"
+      },
+      "headline-md": {
+        "fontFamily": "Geist",
+        "fontSize": "20px",
+        "fontWeight": "600",
+        "lineHeight": "28px",
+        "letterSpacing": "-0.01em"
+      },
+      "display-lg": {
+        "fontFamily": "Geist",
+        "fontSize": "32px",
+        "fontWeight": "700",
+        "lineHeight": "40px",
+        "letterSpacing": "-0.02em"
+      },
+      "telemetry-lg": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "24px",
+        "fontWeight": "700",
+        "lineHeight": "32px"
+      },
+      "telemetry-label": {
+        "fontFamily": "JetBrains Mono",
+        "fontSize": "11px",
+        "fontWeight": "500",
+        "lineHeight": "14px",
+        "letterSpacing": "0.05em"
+      }
+    },
+    "spacing": {
+      "gutter": "8px",
+      "unit": "4px",
+      "stack-gap": "4px",
+      "margin-edge": "16px",
+      "panel-padding": "12px"
+    },
+    "headlineFontFamily": "Geist",
+    "bodyFontFamily": "Inter",
+    "labelFontFamily": "Jetbrains Mono"
+  },
+  "deviceType": "DESKTOP",
+  "screenType": "DESIGN",
+  "screenMetadata": {
+    "agentType": "PRO_AGENT",
+    "status": "COMPLETE"
+  },
+  "designSystem": {
+    "name": "assets/dd31bbe8a26e4e82bd61529c24556a65",
+    "designSystem": {
+      "displayName": "Nexus Smart City Operations",
+      "styleGuidelines": "## Brand & Style\nThe design system is engineered for high-stakes, high-density traffic oversight in smart urban environments. It draws heavily from **Cybernetic Minimalism** and **Technical Information Design**, prioritizing rapid data ingestion and situational awareness. \n\nThe aesthetic is a sophisticated \"Command Center\" style—utilitarian, precise, and authoritative. It utilizes a glassmorphic layer architecture to maintain a sense of depth without sacrificing data density. The interface should evoke a sense of calm, controlled mastery over complex, real-time systems, similar to telemetry dashboards or high-frequency trading terminals.\n\n## Layout & Spacing\nThe layout follows a **High-Density Fluid Grid**. The screen is partitioned into a primary \"Stage\" (usually a real-time 3D map or telemetry visualization) and \"Observation Wings\" (side panels).\n\nSpacing is tight, built on a 4px baseline. Components are packed closely together to mimic a professional operations terminal where information throughput is more important than white space. \n\n- **Breakpoints:**\n  - **Mobile:** Single-column view focusing on critical alerts.\n  - **Desktop (Standard):** 3-column layout (System Health / Map / Active Incidents).\n  - **Ultrawide (Ops Center):** Multi-pane \"Mission Control\" view with persistent logs and sub-system monitors.\n\n## Elevation & Depth\nDepth is achieved through **Luminous Layers** rather than traditional shadows. \n\n1.  **Level 0 (Base):** Deep Slate (`#0B1120`). The canvas for maps or data grids.\n2.  **Level 1 (Glass Panels):** 80% opacity containers with a `backdrop-blur-md`. These \"float\" above the base map, allowing light from the map to bleed through edges.\n3.  **Level 2 (Active States):** High-contrast outlines in Cyan or Purple to indicate focus.\n\nShadows, if used, are tight and saturated (e.g., a 4px blur with `#000000` at 40% opacity) to ground the glass panels without creating \"muddiness\" in the dark UI.\n\n## Components\n- **Data Cards:** Use the glassmorphic style with a `1px` border of `#1E293B`. Headers should use `telemetry-label` with a subtle background tint of the accent color (e.g., 10% Cyan).\n- **Telemetry Chips:** Small, monospaced badges that display status. Use background fills for status colors (Emerald, Amber, Crimson) with white text for maximum legibility.\n- **Action Buttons:** Primarily ghost-style (transparent with border) or solid Cyan for primary actions. Use `caps` and `letter-spacing` for button labels.\n- **Inputs:** Dark, recessed fields with `1px` borders. Focus states should trigger a \"glow\" effect using a Cyan box-shadow (0 0 8px).\n- **Progress/Status Bars:** Segmented bars (reminiscent of loading bars in sci-fi interfaces) are preferred over smooth gradients to represent capacity.\n- **Map Markers:** Geometric shapes (diamonds, hexes) with inner glows that pulsate for active incidents.",
+      "theme": {
+        "colorMode": "DARK",
+        "font": "GEIST",
+        "roundness": "ROUND_FOUR",
+        "customColor": "#06b6d4",
+        "headlineFont": "GEIST",
+        "bodyFont": "INTER",
+        "labelFont": "JETBRAINS_MONO",
+        "namedColors": {
+          "on_primary_fixed_variant": "#004e5c",
+          "on_primary_container": "#00424f",
+          "error": "#ffb4ab",
+          "tertiary": "#ddb7ff",
+          "surface_variant": "#2f3445",
+          "inverse_surface": "#dde2f8",
+          "on_primary_fixed": "#001f26",
+          "tertiary_fixed": "#f0dbff",
+          "tertiary_fixed_dim": "#ddb7ff",
+          "on_surface_variant": "#bcc9cd",
+          "on_error_container": "#ffdad6",
+          "surface_dim": "#0d1322",
+          "surface_bright": "#33394a",
+          "error_container": "#93000a",
+          "on_tertiary_fixed": "#2c0051",
+          "inverse_on_surface": "#2a3040",
+          "on_primary": "#003640",
+          "surface_tint": "#4cd7f6",
+          "secondary_fixed": "#6ffbbe",
+          "surface_container": "#191f2f",
+          "tertiary_container": "#c78dff",
+          "primary_fixed": "#acedff",
+          "on_secondary_fixed": "#002113",
+          "on_tertiary": "#490080",
+          "surface_container_highest": "#2f3445",
+          "primary": "#4cd7f6",
+          "on_secondary_container": "#00311f",
+          "primary_container": "#06b6d4",
+          "surface_container_high": "#242a3a",
+          "on_error": "#690005",
+          "secondary_fixed_dim": "#4edea3",
+          "background": "#0d1322",
+          "secondary": "#4edea3",
+          "surface_container_lowest": "#080e1d",
+          "on_background": "#dde2f8",
+          "primary_fixed_dim": "#4cd7f6",
+          "secondary_container": "#00a572",
+          "on_tertiary_fixed_variant": "#6900b3",
+          "outline": "#869397",
+          "on_surface": "#dde2f8",
+          "on_secondary": "#003824",
+          "inverse_primary": "#00687a",
+          "outline_variant": "#3d494c",
+          "surface_container_low": "#151b2b",
+          "surface": "#0d1322",
+          "on_tertiary_container": "#5a009b",
+          "on_secondary_fixed_variant": "#005236"
+        },
+        "designMd": "---\nname: Nexus Smart City Operations\ncolors:\n  surface: '#0d1322'\n  surface-dim: '#0d1322'\n  surface-bright: '#33394a'\n  surface-container-lowest: '#080e1d'\n  surface-container-low: '#151b2b'\n  surface-container: '#191f2f'\n  surface-container-high: '#242a3a'\n  surface-container-highest: '#2f3445'\n  on-surface: '#dde2f8'\n  on-surface-variant: '#bcc9cd'\n  inverse-surface: '#dde2f8'\n  inverse-on-surface: '#2a3040'\n  outline: '#869397'\n  outline-variant: '#3d494c'\n  surface-tint: '#4cd7f6'\n  primary: '#4cd7f6'\n  on-primary: '#003640'\n  primary-container: '#06b6d4'\n  on-primary-container: '#00424f'\n  inverse-primary: '#00687a'\n  secondary: '#4edea3'\n  on-secondary: '#003824'\n  secondary-container: '#00a572'\n  on-secondary-container: '#00311f'\n  tertiary: '#ddb7ff'\n  on-tertiary: '#490080'\n  tertiary-container: '#c78dff'\n  on-tertiary-container: '#5a009b'\n  error: '#ffb4ab'\n  on-error: '#690005'\n  error-container: '#93000a'\n  on-error-container: '#ffdad6'\n  primary-fixed: '#acedff'\n  primary-fixed-dim: '#4cd7f6'\n  on-primary-fixed: '#001f26'\n  on-primary-fixed-variant: '#004e5c'\n  secondary-fixed: '#6ffbbe'\n  secondary-fixed-dim: '#4edea3'\n  on-secondary-fixed: '#002113'\n  on-secondary-fixed-variant: '#005236'\n  tertiary-fixed: '#f0dbff'\n  tertiary-fixed-dim: '#ddb7ff'\n  on-tertiary-fixed: '#2c0051'\n  on-tertiary-fixed-variant: '#6900b3'\n  background: '#0d1322'\n  on-background: '#dde2f8'\n  surface-variant: '#2f3445'\ntypography:\n  display-lg:\n    fontFamily: Geist\n    fontSize: 32px\n    fontWeight: '700'\n    lineHeight: 40px\n    letterSpacing: -0.02em\n  headline-md:\n    fontFamily: Geist\n    fontSize: 20px\n    fontWeight: '600'\n    lineHeight: 28px\n    letterSpacing: -0.01em\n  body-sm:\n    fontFamily: Inter\n    fontSize: 13px\n    fontWeight: '400'\n    lineHeight: 18px\n  telemetry-label:\n    fontFamily: JetBrains Mono\n    fontSize: 11px\n    fontWeight: '500'\n    lineHeight: 14px\n    letterSpacing: 0.05em\n  telemetry-value:\n    fontFamily: JetBrains Mono\n    fontSize: 14px\n    fontWeight: '600'\n    lineHeight: 16px\n  telemetry-lg:\n    fontFamily: JetBrains Mono\n    fontSize: 24px\n    fontWeight: '700'\n    lineHeight: 32px\nrounded:\n  sm: 0.125rem\n  DEFAULT: 0.25rem\n  md: 0.375rem\n  lg: 0.5rem\n  xl: 0.75rem\n  full: 9999px\nspacing:\n  unit: 4px\n  gutter: 8px\n  margin-edge: 16px\n  panel-padding: 12px\n  stack-gap: 4px\n---\n\n## Brand & Style\nThe design system is engineered for high-stakes, high-density traffic oversight in smart urban environments. It draws heavily from **Cybernetic Minimalism** and **Technical Information Design**, prioritizing rapid data ingestion and situational awareness. \n\nThe aesthetic is a sophisticated \"Command Center\" style—utilitarian, precise, and authoritative. It utilizes a glassmorphic layer architecture to maintain a sense of depth without sacrificing data density. The interface should evoke a sense of calm, controlled mastery over complex, real-time systems, similar to telemetry dashboards or high-frequency trading terminals.\n\n## Colors\nThe palette is rooted in a deep-space foundation of `#0B1120` and `#0F172A`. Functional color is used strictly for data state and telemetry status:\n\n- **Optimal Flow (Emerald/Cyan):** Indicates health and movement within system parameters.\n- **Moderate Load (Amber):** Signals congestion or nearing-capacity thresholds.\n- **Bottlenecks (Crimson):** High-priority alerts requiring immediate operator intervention.\n- **Network Infrastructure (Electric Purple):** Used for abstract backbones, connectivity nodes, and logic layers.\n\nSurfaces use a semi-transparent glassmorphism to allow background map data or secondary streams to remain subtly visible, maintaining spatial context.\n\n## Typography\nThis design system uses a dual-font strategy. **Geist** and **Inter** handle the structural UI elements, providing a modern, neutral, and highly legible framework for navigation and settings. \n\n**JetBrains Mono** is utilized for all \"Live Data\"—including timestamps, coordinates, vehicle IDs, and traffic volume counts. The monospaced nature of JetBrains Mono ensures that rapidly changing numbers do not cause layout \"jitter\" and are easier to scan in vertical columns. \n\nLarge display sizes are restricted to top-level KPIs to maximize screen real estate for map-based visualizations.\n\n## Layout & Spacing\nThe layout follows a **High-Density Fluid Grid**. The screen is partitioned into a primary \"Stage\" (usually a real-time 3D map or telemetry visualization) and \"Observation Wings\" (side panels).\n\nSpacing is tight, built on a 4px baseline. Components are packed closely together to mimic a professional operations terminal where information throughput is more important than white space. \n\n- **Breakpoints:**\n  - **Mobile:** Single-column view focusing on critical alerts.\n  - **Desktop (Standard):** 3-column layout (System Health / Map / Active Incidents).\n  - **Ultrawide (Ops Center):** Multi-pane \"Mission Control\" view with persistent logs and sub-system monitors.\n\n## Elevation & Depth\nDepth is achieved through **Luminous Layers** rather than traditional shadows. \n\n1.  **Level 0 (Base):** Deep Slate (`#0B1120`). The canvas for maps or data grids.\n2.  **Level 1 (Glass Panels):** 80% opacity containers with a `backdrop-blur-md`. These \"float\" above the base map, allowing light from the map to bleed through edges.\n3.  **Level 2 (Active States):** High-contrast outlines in Cyan or Purple to indicate focus.\n\nShadows, if used, are tight and saturated (e.g., a 4px blur with `#000000` at 40% opacity) to ground the glass panels without creating \"muddiness\" in the dark UI.\n\n## Shapes\nShapes are functional and sharp. A \"Soft\" (`0.25rem`) corner radius is applied to panels and buttons to prevent the UI from feeling overly aggressive, but large radii or circles are avoided to maintain the technical, \"engineered\" look.\n\nInteractive elements (like toggle switches) use the same subtle rounding. Graphs and data visualizations should use sharp angles or very minimal smoothing to emphasize precision over aesthetics.\n\n## Components\n- **Data Cards:** Use the glassmorphic style with a `1px` border of `#1E293B`. Headers should use `telemetry-label` with a subtle background tint of the accent color (e.g., 10% Cyan).\n- **Telemetry Chips:** Small, monospaced badges that display status. Use background fills for status colors (Emerald, Amber, Crimson) with white text for maximum legibility.\n- **Action Buttons:** Primarily ghost-style (transparent with border) or solid Cyan for primary actions. Use `caps` and `letter-spacing` for button labels.\n- **Inputs:** Dark, recessed fields with `1px` borders. Focus states should trigger a \"glow\" effect using a Cyan box-shadow (0 0 8px).\n- **Progress/Status Bars:** Segmented bars (reminiscent of loading bars in sci-fi interfaces) are preferred over smooth gradients to represent capacity.\n- **Map Markers:** Geometric shapes (diamonds, hexes) with inner glows that pulsate for active incidents.",
+        "colorVariant": "FIDELITY",
+        "overridePrimaryColor": "#06b6d4",
+        "overrideSecondaryColor": "#10b981",
+        "overrideTertiaryColor": "#a855f7",
+        "overrideNeutralColor": "#0b1120",
+        "spacingScale": 2,
+        "typography": {
+          "headline-md": {
+            "fontFamily": "Geist",
+            "fontSize": "20px",
+            "fontWeight": "600",
+            "lineHeight": "28px",
+            "letterSpacing": "-0.01em"
+          },
+          "display-lg": {
+            "fontFamily": "Geist",
+            "fontSize": "32px",
+            "fontWeight": "700",
+            "lineHeight": "40px",
+            "letterSpacing": "-0.02em"
+          },
+          "telemetry-value": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "14px",
+            "fontWeight": "600",
+            "lineHeight": "16px"
+          },
+          "telemetry-lg": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "24px",
+            "fontWeight": "700",
+            "lineHeight": "32px"
+          },
+          "telemetry-label": {
+            "fontFamily": "JetBrains Mono",
+            "fontSize": "11px",
+            "fontWeight": "500",
+            "lineHeight": "14px",
+            "letterSpacing": "0.05em"
+          },
+          "body-sm": {
+            "fontFamily": "Inter",
+            "fontSize": "13px",
+            "fontWeight": "400",
+            "lineHeight": "18px"
+          }
+        },
+        "spacing": {
+          "gutter": "8px",
+          "stack-gap": "4px",
+          "panel-padding": "12px",
+          "margin-edge": "16px",
+          "unit": "4px"
+        },
+        "headlineFontFamily": "Geist",
+        "bodyFontFamily": "Inter",
+        "labelFontFamily": "Jetbrains Mono"
+      }
+    },
+    "version": "1"
+  }
+}

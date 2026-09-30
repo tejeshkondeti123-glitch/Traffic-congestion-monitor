@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Songdo Smart Mobility - Fleet Operations</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-error": "#690005",
+                      "secondary": "#4edea3",
+                      "surface-container": "#191f2f",
+                      "primary": "#4cd7f6",
+                      "on-tertiary-fixed-variant": "#6900b3",
+                      "primary-fixed": "#acedff",
+                      "surface-tint": "#4cd7f6",
+                      "on-secondary-fixed": "#002113",
+                      "tertiary-fixed": "#f0dbff",
+                      "surface": "#0d1322",
+                      "surface-dim": "#0d1322",
+                      "on-primary": "#003640",
+                      "surface-container-lowest": "#080e1d",
+                      "on-surface-variant": "#bcc9cd",
+                      "on-surface": "#dde2f8",
+                      "on-primary-fixed-variant": "#004e5c",
+                      "tertiary-fixed-dim": "#ddb7ff",
+                      "surface-container-highest": "#2f3445",
+                      "error-container": "#93000a",
+                      "surface-container-high": "#242a3a",
+                      "on-tertiary-container": "#5a009b",
+                      "outline-variant": "#3d494c",
+                      "outline": "#869397",
+                      "on-error-container": "#ffdad6",
+                      "inverse-surface": "#dde2f8",
+                      "primary-container": "#06b6d4",
+                      "secondary-fixed-dim": "#4edea3",
+                      "tertiary": "#ddb7ff",
+                      "inverse-on-surface": "#2a3040",
+                      "secondary-fixed": "#6ffbbe",
+                      "on-background": "#dde2f8",
+                      "surface-bright": "#33394a",
+                      "on-tertiary": "#490080",
+                      "background": "#0d1322",
+                      "on-tertiary-fixed": "#2c0051",
+                      "tertiary-container": "#c78dff",
+                      "primary-fixed-dim": "#4cd7f6",
+                      "error": "#ffb4ab",
+                      "inverse-primary": "#00687a",
+                      "surface-container-low": "#151b2b",
+                      "on-secondary-fixed-variant": "#005236",
+                      "on-primary-fixed": "#001f26",
+                      "secondary-container": "#00a572",
+                      "surface-variant": "#2f3445",
+                      "on-secondary-container": "#00311f",
+                      "on-secondary": "#003824",
+                      "on-primary-container": "#00424f"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "gutter": "8px",
+                      "stack-gap": "4px",
+                      "unit": "4px",
+                      "panel-padding": "12px",
+                      "margin-edge": "16px"
+              },
+              "fontFamily": {
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Geist"
+                      ],
+                      "telemetry-lg": [
+                              "JetBrains Mono"
+                      ],
+                      "telemetry-label": [
+                              "JetBrains Mono"
+                      ],
+                      "telemetry-value": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Geist"
+                      ]
+              },
+              "fontSize": {
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "telemetry-lg": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "telemetry-label": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "telemetry-value": [
+                              "14px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Geist:wght@600;700&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .map-grid {
+            background-image: 
+                linear-gradient(to right, rgba(76, 215, 246, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(76, 215, 246, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .pulse-marker {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            80% { transform: scale(2.5); opacity: 0; }
+            100% { transform: scale(2.5); opacity: 0; }
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-sm h-screen w-screen overflow-hidden flex flex-col selection:bg-primary selection:text-on-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md shadow-sm border-b border-outline-variant transition-all duration-200 ease-in-out hidden md:flex">
+<div class="flex justify-between items-center px-margin-edge h-16 w-full">
+<div class="flex items-center gap-margin-edge">
+<span class="font-display-lg text-display-lg text-primary tracking-tighter">METRO-CORE OPS</span>
+<div class="flex gap-margin-edge ml-margin-edge h-full">
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-unit py-unit h-full flex items-center" href="#">LIVE MAP</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-unit py-unit h-full flex items-center" href="#">INCIDENTS</a>
+<a class="font-headline-md text-headline-md text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 px-unit py-unit h-full flex items-center" href="#">ANALYTICS</a>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<!-- Search Bar -->
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+<input class="bg-surface-container-high border border-outline-variant rounded text-on-surface font-telemetry-value text-telemetry-value pl-8 pr-3 py-1 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/50 transition-all w-64 placeholder:text-on-surface-variant/50" placeholder="Search systems..." type="text"/>
+</div>
+<!-- Trailing Actions -->
+<button class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 p-2 rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined" data-icon="notifications_active">notifications_active</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full animate-pulse"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-colors hover:bg-primary/10 p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-64 z-40 bg-surface-container-lowest/90 backdrop-blur-xl border-r border-outline-variant hidden md:flex flex-col py-panel-padding gap-stack-gap">
+<div class="px-panel-padding mb-margin-edge flex items-center gap-gutter">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-primary overflow-hidden flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div class="flex flex-col">
+<span class="font-headline-md text-headline-md text-primary text-sm truncate">SYSTEM COMMAND</span>
+<span class="font-telemetry-label text-telemetry-label text-secondary truncate">SECTOR-07 STATUS: NOMINAL</span>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-unit px-unit">
+<a class="flex items-center gap-gutter px-panel-padding py-2 rounded-sm text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors" data-icon="hub">hub</span>
+                Network Map
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-2 rounded-sm text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors" data-icon="Traffic">network_wifi_2_bar_locked</span>
+                Junctions
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-2 rounded-sm bg-secondary/10 text-secondary border-r-4 border-secondary hover:backdrop-brightness-125 active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="local_shipping">local_shipping</span>
+                Fleet Ops
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-2 rounded-sm text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors" data-icon="thermostat">thermostat</span>
+                Climate
+            </a>
+<a class="flex items-center gap-gutter px-panel-padding py-2 rounded-sm text-on-surface-variant hover:bg-surface-variant hover:text-on-surface hover:backdrop-brightness-125 active:scale-95 transition-transform font-telemetry-label text-telemetry-label uppercase tracking-widest group" href="#">
+<span class="material-symbols-outlined text-lg group-hover:text-primary transition-colors" data-icon="terminal">terminal</span>
+                System Logs
+            </a>
+</nav>
+<div class="px-panel-padding mt-auto">
+<button class="w-full bg-error/20 hover:bg-error/30 text-error border border-error/50 py-2 rounded-sm font-telemetry-label text-telemetry-label uppercase tracking-widest transition-colors flex items-center justify-center gap-unit">
+<span class="material-symbols-outlined text-sm">warning</span>
+                EMERGENCY OVERRIDE
+            </button>
+</div>
+</aside>
+<!-- Main Content Stage -->
+<main class="flex-1 flex flex-col md:ml-64 mt-16 bg-surface-dim relative overflow-hidden">
+<!-- Map Canvas (Background) -->
+<div class="absolute inset-0 map-grid z-0 opacity-40"></div>
+<img class="absolute inset-0 w-full h-full object-cover mix-blend-screen opacity-20 z-0" data-alt="A highly detailed, futuristic top-down digital map of a smart city grid. Rendered in dark mode aesthetics with deep midnight blue background. Glowing cyan and electric purple neon lines trace intricate transportation routes and data streams. High-contrast, utilitarian telemetry interface style, reminiscent of a command center terminal. Minimalist glassmorphic elements overlaid on complex urban topography." data-location="Songdo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8pJjsUGPG9KJdXYgG-QFBFgQsttcMS6Q6fVE9XUaj8-UUBH2Zqpsn5rtrUh41o0wl0C2iZh64WW7Hi5MDHyyl7TXVMhIUc70G9gCNiVYTBCoHLzyy2sf4Bxes11OEyVIDeyqp4W7_MJrwd90xznERJ5uY47_2bJJZxCoEG_kDQi0jwL_SJH674XLkdsNJC-FOnx_q1tmG5nxgaCBsT7UtZdysQBoop9UkqkCGAm01gdIlKwmF8reFfw"/>
+<!-- Map Overlay Content -->
+<div class="absolute inset-0 z-10 flex p-margin-edge gap-margin-edge pointer-events-none">
+<!-- Left Panel (Telemetry Cards) -->
+<div class="w-80 flex flex-col gap-margin-edge pointer-events-auto h-full overflow-y-auto scroll-hide pb-32">
+<!-- KPI: Active Vehicles -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant rounded p-panel-padding shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+<div class="flex justify-between items-center mb-unit">
+<span class="font-telemetry-label text-telemetry-label text-primary uppercase tracking-widest bg-primary/10 px-2 py-0.5 rounded-sm">Active Fleet</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">airport_shuttle</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">1,482</span>
+<span class="font-telemetry-label text-telemetry-label text-secondary">+12.4%</span>
+</div>
+<div class="w-full bg-surface-container-high h-1 mt-3 rounded-full overflow-hidden flex">
+<div class="bg-primary h-full w-[70%]"></div>
+<div class="bg-tertiary h-full w-[20%]"></div>
+<div class="bg-outline h-full w-[10%]"></div>
+</div>
+<div class="flex justify-between mt-1">
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant text-[9px]">AUTONOMOUS (70%)</span>
+<span class="font-telemetry-label text-telemetry-label text-on-surface-variant text-[9px]">TRANSIT (20%)</span>
+</div>
+</div>
+<!-- KPI: On-Time Performance -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant rounded p-panel-padding shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
+<div class="flex justify-between items-center mb-unit">
+<span class="font-telemetry-label text-telemetry-label text-secondary uppercase tracking-widest bg-secondary/10 px-2 py-0.5 rounded-sm">On-Time Rating</span>
+<span class="material-symbols-outlined text-on-surface-variant text-sm">timer</span>
+</div>
+<div class="flex items-baseline gap-2">
+<span class="font-telemetry-lg text-telemetry-lg text-on-surface">98.2%</span>
+<span class="font-telemetry-label text-telemetry-label text-error">-0.4%</span>
+</div>
+<div class="grid grid-cols-6 gap-1 mt-3">
+<div class="h-2 bg-secondary rounded-sm"></div>
+<div class="h-2 bg-secondary rounded-sm"></div>
+<div class="h-2 bg-secondary rounded-sm"></div>
+<div class="h-2 bg-secondary rounded-sm"></div>
+<div class="h-2 bg-secondary rounded-sm"></div>
+<div class="h-2 bg-outline-variant rounded-sm"></div>
+</div>
+</div>
+<!-- Vehicle List -->
+<div class="bg-surface-container/80 backdrop-blur-md border border-outline-variant rounded p-panel-padding shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex-1 flex flex-col min-h-[300px]">
+<div class="flex justify-between items-center mb-gutter border-b border-outline-variant pb-2">
+<span class="font-telemetry-label text-telemetry-label text-tertiary uppercase tracking-widest bg-tertiary/10 px-2 py-0.5 rounded-sm">Live Units</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">filter_list</span></button>
+</div>
+<div class="flex flex-col gap-unit overflow-y-auto scroll-hide flex-1">
+<!-- Unit Item 1 -->
+<div class="border border-outline-variant rounded-sm p-2 bg-surface-container-highest hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-center mb-1">
+<span class="font-telemetry-value text-telemetry-value text-on-surface group-hover:text-primary">SHU-089A</span>
+<span class="px-1.5 py-0.5 bg-secondary/20 text-secondary font-telemetry-label text-telemetry-label text-[10px] rounded-sm">MOVING</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="font-telemetry-label text-telemetry-label">SPD: 45km/h</span>
+<span class="font-telemetry-label text-telemetry-label">PWR: 88%</span>
+</div>
+<div class="font-telemetry-label text-telemetry-label text-outline mt-1 truncate">
+                                DEST: Central Hub Terminal B
+                            </div>
+</div>
+<!-- Unit Item 2 (Alert) -->
+<div class="border border-error/50 rounded-sm p-2 bg-error/5 hover:border-error transition-colors cursor-pointer group relative overflow-hidden">
+<div class="absolute left-0 top-0 bottom-0 w-1 bg-error"></div>
+<div class="flex justify-between items-center mb-1 pl-2">
+<span class="font-telemetry-value text-telemetry-value text-on-surface">TRN-442C</span>
+<span class="px-1.5 py-0.5 bg-error/20 text-error font-telemetry-label text-telemetry-label text-[10px] rounded-sm animate-pulse">DELAYED</span>
+</div>
+<div class="flex justify-between text-on-surface-variant pl-2">
+<span class="font-telemetry-label text-telemetry-label">SPD: 0km/h</span>
+<span class="font-telemetry-label text-telemetry-label">PWR: 92%</span>
+</div>
+<div class="font-telemetry-label text-telemetry-label text-error/80 mt-1 truncate pl-2">
+                                ERR: Route blocked Sector 4
+                            </div>
+</div>
+<!-- Unit Item 3 -->
+<div class="border border-outline-variant rounded-sm p-2 bg-surface-container-highest hover:border-primary/50 transition-colors cursor-pointer group">
+<div class="flex justify-between items-center mb-1">
+<span class="font-telemetry-value text-telemetry-value text-on-surface group-hover:text-primary">EMG-012X</span>
+<span class="px-1.5 py-0.5 bg-tertiary/20 text-tertiary font-telemetry-label text-telemetry-label text-[10px] rounded-sm">DISPATCH</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span class="font-telemetry-label text-telemetry-label">SPD: 112km/h</span>
+<span class="font-telemetry-label text-telemetry-label">PWR: 100%</span>
+</div>
+<div class="font-telemetry-label text-telemetry-label text-outline mt-1 truncate">
+                                DEST: MedCenter Alpha
+                            </div>
+</div>
+</div>
+</div>
+</div>
+<!-- Central Map Stage (Interactive markers) -->
+<div class="flex-1 relative pointer-events-auto h-full">
+<!-- Example Markers -->
+<div class="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 group cursor-pointer">
+<div class="w-4 h-4 bg-primary rounded-sm rotate-45 border border-surface shadow-[0_0_12px_rgba(76,215,246,0.8)] relative z-10"></div>
+<div class="absolute inset-0 bg-primary rounded-sm rotate-45 pulse-marker -z-0"></div>
+<div class="absolute top-6 left-1/2 -translate-x-1/2 bg-surface-container-high/90 border border-primary/50 px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+<span class="font-telemetry-label text-telemetry-label text-primary">SHU-089A | 45km/h</span>
+</div>
+</div>
+<div class="absolute top-2/3 left-1/4 group cursor-pointer">
+<div class="w-4 h-4 bg-error rounded-sm border border-surface shadow-[0_0_12px_rgba(255,180,171,0.8)] relative z-10"></div>
+<div class="absolute top-6 left-1/2 -translate-x-1/2 bg-surface-container-high/90 border border-error/50 px-2 py-1 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-20">
+<span class="font-telemetry-label text-telemetry-label text-error">TRN-442C | DELAYED</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer Terminal Logs -->
+<footer class="fixed bottom-0 right-0 left-0 md:left-64 z-50 bg-surface-container-high/95 backdrop-blur-md border-t border-outline-variant h-32 flex flex-col font-telemetry-value text-telemetry-value">
+<div class="flex justify-between items-center px-panel-padding h-8 border-b border-surface-container-lowest/50 bg-surface-container">
+<span class="font-telemetry-label text-on-tertiary-container">OS-X KERNEL v4.2.0-STABLE</span>
+<div class="flex gap-margin-edge">
+<span class="text-primary font-telemetry-label cursor-pointer hover:text-tertiary-container">SYSSTAT: OK</span>
+<span class="text-on-surface-variant font-telemetry-label cursor-pointer hover:text-tertiary-container">LATENCY: 12ms</span>
+<span class="text-on-surface-variant font-telemetry-label cursor-pointer hover:text-tertiary-container">UPTIME: 99.99%</span>
+</div>
+</div>
+<div class="flex-1 p-2 overflow-y-auto scroll-hide bg-surface-dim font-telemetry-label text-[10px] leading-tight text-outline flex flex-col gap-0.5">
+<div class="flex gap-2 hover:bg-surface-variant/50 px-1 rounded-sm"><span class="text-primary">14:02:11</span><span>[ROUTING] Recalculating path for SHU-089A... Optimal trajectory locked.</span></div>
+<div class="flex gap-2 hover:bg-surface-variant/50 px-1 rounded-sm"><span class="text-primary">14:02:10</span><span>[DISPATCH] EMG-012X dispatched to Sector 2 coordinate delta.</span></div>
+<div class="flex gap-2 hover:bg-surface-variant/50 px-1 rounded-sm"><span class="text-error">14:02:08</span><span>[ALERT] TRN-442C reporting obstruction. Initiating local redirect protocols.</span></div>
+<div class="flex gap-2 hover:bg-surface-variant/50 px-1 rounded-sm"><span class="text-primary">14:02:05</span><span>[SYSTEM] Sensor array sync complete. Nominal readings across grid.</span></div>
+<div class="flex gap-2 hover:bg-surface-variant/50 px-1 rounded-sm"><span class="text-primary">14:02:01</span><span>[FLEET] Battery check cycle initiated for idle units.</span></div>
+</div>
+</footer>
+</body></html>
